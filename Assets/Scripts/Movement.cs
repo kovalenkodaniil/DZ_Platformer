@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
+
 public class Movement : MonoBehaviour
 {
     [SerializeField] private float _speed;
@@ -11,11 +14,9 @@ public class Movement : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
     private Vector3 _move;
-    private Transform _playerTranform;
 
     private void Start()
     {
-        _playerTranform = GetComponent<Transform>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -28,12 +29,11 @@ public class Movement : MonoBehaviour
         {
             _move = new Vector3(_moveDirection, 0, 0) * _speed;
             _spriteRenderer.flipX = _moveDirection > 0;
-
-            _animator.SetBool("Run", true);
+            _animator.SetBool(PlaeyrsAnimation.Params.RunHash, true);
         }
         else 
         {
-            _animator.SetBool("Run", false);
+            _animator.SetBool(PlaeyrsAnimation.Params.RunHash, false);
         }
 
         if (Input.GetKey(KeyCode.Space))
@@ -41,6 +41,13 @@ public class Movement : MonoBehaviour
             _move.y = _jumpPower;
         }
 
-        _playerTranform.transform.position += _move * Time.deltaTime;
+        transform.position += _move * Time.deltaTime;
+    }
+}
+public static class PlaeyrsAnimation
+{
+    public static class Params 
+    {
+        public static int RunHash = Animator.StringToHash("Run"); 
     }
 }
