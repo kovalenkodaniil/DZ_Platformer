@@ -10,6 +10,5 @@ public class Player : MonoBehaviour
     public void AddCoin()
     {
         _coinCount ++;
-        Debug.Log($"Монет: {_coinCount}");
     }
 }
